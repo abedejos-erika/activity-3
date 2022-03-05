@@ -57,7 +57,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
             fontSize: 13,
             fontWeight: 'bold',
             paddingVertical: 10,
-            color: '#fde2e4'
+            color: '#fde2e4',
+            fontFamily: 'poppins-bold'
           }}>
           This app was created by the BROgrammers Group.
           </Text>
@@ -72,7 +73,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           backgroundColor: '#0a191e' }}>
           <Text style={{
             fontSize: 20,
-            color: '#fde2e4'
+            color: '#fde2e4',
+            fontFamily: 'poppins-bold'
 
           }}>u s e r n a m e</Text>
         <View style={{ 
@@ -81,7 +83,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           marginVertical: 0, 
           padding: 20, 
           backgroundColor: "#FFF",
-          borderWidth: 3
+          borderWidth: 3,
            }}>
         </View>  
         </View>  
@@ -91,11 +93,12 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           borderRadius: 5, 
           marginVertical: 0, 
           padding: 10, 
-          backgroundColor: '#0a191e'
+          backgroundColor: '#0a191e',
            }}>
           <Text style={{
             fontSize: 20,
-            color: '#fde2e4'
+            color: '#fde2e4',
+            fontFamily: 'poppins-bold',
             
           }}>p a s s w o r d</Text>
         <View style={{ 
@@ -109,7 +112,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
             <View>
       <Image
         source={{uri : ('https://www.freeiconspng.com/thumbs/eye-icon/eyeball-icon-png-eye-icon-1.png')}}
-        style={{ width: 20, height: 20, position: 'absolute', top: -8, left: 270, marginHorizontal: 0}}
+        style={{ width: 20, height: 20, position: 'absolute', top: -9, bottom: 5, left: 240, right: 0, marginHorizontal: 0}}
       />
     </View>
         </View>  
@@ -132,7 +135,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
                         paddingHorizontal: 40
                     }}
                     titleStyle={{
-                        color: '#ffff'
+                        color: '#ffff',
+                        fontFamily: 'poppins-bold',
                     }}
           />
         <Button
@@ -144,7 +148,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
                         paddingHorizontal: 40
                     }}
                     titleStyle={{
-                        color: '#ffff'
+                        color: '#ffff',
+                        fontFamily: 'poppins-bold'
                     }}
           />
         </View >
@@ -155,6 +160,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
             fontWeight: 'bold',
             paddingVertical: 0,
             color: '#fde2e4',
+            textDecorationLine: 'underline'
           }}>
           Forgot Password?
           </Text>
