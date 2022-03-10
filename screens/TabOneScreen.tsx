@@ -5,15 +5,21 @@ import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
 import { Button } from "react-native-elements";
 import { useAssets } from 'expo-asset';
+import { TextInput } from 'react-native-paper';
+import React, { useState } from 'react';
+//import ViewWithLoading from  "../../activity-3/components/__tests__/"
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
+  const [loading, setLoading] = useState<boolean>(false);
+  const[email, setEmail]=useState<string>("helloworld@gmail.com");
+  const[password, setPassword]=useState<string>("654321");
+
+
   return (
-    <View style={{
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center'
-    }}>
+
+    <View style={styles.container}>
+  
       <View style={{
         height: '100%',
         width: '100%',
@@ -36,7 +42,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
 
         
         
-        <View style={{flex: 0.7, backgroundColor: '#0a191e' }}>
+        <View style={styles.lottieContainer}>
         <LottieView
                         source={require('../../activity-3/assets/lottie/50124-user-profile.json')}
                         autoPlay={true}
@@ -44,7 +50,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           />
         </View >
 
-        <View style={{flex: 0.2, borderWidth: 0, alignItems: 'center', backgroundColor: '#0a191e'}}>
+        <View style={styles.titleContainer}>
           <Text style={{
             fontSize: 35,
             fontWeight: 'bold',
@@ -62,69 +68,39 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           }}>
           This app was created by the BROgrammers Group.
           </Text>
-          
-        </View>
-
-        <View style={{ 
-          flex: 0, 
-          borderRadius: 5, 
-          marginVertical: 5, 
-          padding: 10, 
-          backgroundColor: '#0a191e' }}>
-          <Text style={{
-            fontSize: 20,
-            color: '#fde2e4',
-            fontFamily: 'poppins-bold'
-
-          }}>u s e r n a m e</Text>
-        <View style={{ 
-          flex: 0, 
-          borderRadius: 20, 
-          marginVertical: 0, 
-          padding: 20, 
-          backgroundColor: "#FFF",
-          borderWidth: 3,
-           }}>
-        </View>  
-        </View>  
-
-        <View style={{ 
-          flex: 0, 
-          borderRadius: 5, 
-          marginVertical: 0, 
-          padding: 10, 
-          backgroundColor: '#0a191e',
-           }}>
-          <Text style={{
-            fontSize: 20,
-            color: '#fde2e4',
-            fontFamily: 'poppins-bold',
-            
-          }}>p a s s w o r d</Text>
-        <View style={{ 
-          flex: 0, 
-          borderRadius: 20, 
-          marginVertical: 0, 
-          padding: 20, 
-          backgroundColor: "#FFF",
-          borderWidth: 3
-          }}>
-            <View>
-      <Image
-        source={{uri : ('https://www.freeiconspng.com/thumbs/eye-icon/eyeball-icon-png-eye-icon-1.png')}}
-        style={{ width: 20, height: 20, position: 'absolute', top: -9, bottom: 5, left: 240, right: 0, marginHorizontal: 0}}
-      />
-    </View>
-        </View>  
         </View>
 
         <View style={{
-          flex: 0.2, 
-          width: '100%', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          flexDirection: 'row',
-          backgroundColor:'#0a191e'}}>
+          flex: 0,
+          justifyContent: 'center',
+          paddingHorizontal: 20,
+          backgroundColor: '#0a191e'
+        }}>
+
+        <TextInput
+        label="Email"
+        value={email}
+        autoComplete={false}
+        style={{marginBottom: 10}}
+        onChangeText={(text: string) => {
+          setEmail(text);
+        }}
+        />
+
+        <TextInput
+        label="Password"
+        value={password}
+        autoComplete={false}
+        secureTextEntry={true}
+        style={{marginBottom: 20}}
+        onChangeText={(text: string) => {
+          setPassword(text);
+        }}
+        />
+        </View>
+
+
+        <View style={styles.buttonContainer}>
 
         <Button
                         title={'REGISTER'}
@@ -154,7 +130,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           />
         </View >
 
-        <View style={{flex: 0, borderWidth: 0, alignItems: 'center', backgroundColor: '#0a191e'}}>
+        <View style={styles.forgotpwContainer}>
           <Text style={{
             fontSize: 13,
             fontWeight: 'bold',
@@ -172,3 +148,35 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  lottieContainer:{
+    flex: 0.7, 
+    backgroundColor: '#0a191e' 
+  },
+  titleContainer:{
+    flex: 0.2, 
+    borderWidth: 0, 
+    alignItems: 'center', 
+    backgroundColor: '#0a191e'
+  },
+  buttonContainer:{
+    flex: 0.2, 
+    width: '100%', 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor:'#0a191e'
+  },
+  forgotpwContainer:{
+    flex: 0, 
+    borderWidth: 0, 
+    alignItems: 'center', 
+    backgroundColor: '#0a191e'
+  }
+})
