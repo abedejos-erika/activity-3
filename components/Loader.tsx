@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ActivityIndicator, PixelRatio, StyleSheet, View } from 'react-native';
-import { commonColor } from '../constants/Colors';
+//import { commonColor } from '../constants/Colors';
 
 
 export default function Loader() {
@@ -27,8 +27,10 @@ const styles = StyleSheet.create({
     container: {
         height: PixelRatio.getPixelSizeForLayoutSize(30),
         width: PixelRatio.getPixelSizeForLayoutSize(30),
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 60,
-        opacity: 0.8,
-        backgroundColor: commonColor.main
+        opacity: 1,
+        backgroundColor: '#b5179e'
     },
 });
