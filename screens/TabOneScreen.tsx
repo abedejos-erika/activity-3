@@ -7,17 +7,22 @@ import { Button } from "react-native-elements";
 import { useAssets } from 'expo-asset';
 import { TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
-//import ViewWithLoading from  "../../activity-3/components/__tests__/"
+import ViewWithLoading from  "../../activity-3/components/ViewWithLoading"
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const[email, setEmail]=useState<string>("helloworld@gmail.com");
   const[password, setPassword]=useState<string>("654321");
 
+  setTimeout (() => {
+    setLoading(false);
+  },3000);
 
   return (
-
+    <ViewWithLoading
+      loading={loading}
+    >
     <View style={styles.container}>
   
       <View style={{
@@ -146,6 +151,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
 
       </View>
     </View>
+    </ViewWithLoading>
   );
 }
 
