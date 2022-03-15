@@ -1,4 +1,4 @@
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 //import LottieView from 'lottie-react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -8,6 +8,7 @@ import { useAssets } from 'expo-asset';
 import { TextInput } from 'react-native-paper';
 import React, { useState } from 'react';
 import ViewWithLoading from  "../../activity-3/components/ViewWithLoading"
+import { Appbar } from 'react-native-paper';
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
 
@@ -19,13 +20,17 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const[lastname, setLastName]=useState<string>("");
   const[address, setAddress]=useState<string>("");
   const[birthday, setBirthday]=useState<string>("");
-  const[mobilenumber, setMobileNumber]=useState<string>("");
+  const[mobilenumber, setMobileNumber]=useState<string>("+63");
 
   setTimeout (() => {
     setLoading(false);
   },3000);
 
   return (
+
+    <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.ScrollViewContainer}>
+    
     <ViewWithLoading
       loading={loading}
     >
@@ -38,7 +43,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         borderRadius: 10,
         borderColor: '#0a191e',
         overflow: 'hidden',
-        padding: 10,
+        padding: 0,
         borderWidth: 10,
         shadowColor: '#000',
         shadowOffset: {
@@ -53,9 +58,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
 
         <View style={styles.titleContainer}>
           <Text style={{
-            fontSize: 20,
+            fontSize: 30,
             fontWeight: 'bold',
-            paddingVertical: 0,
             color: '#fde2e4',
           }}>
           Create an Account
@@ -65,8 +69,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         <View style={{
           flex: 0,
           justifyContent: 'center',
-          paddingHorizontal: 20,
-          backgroundColor: '#0a191e',
+          paddingHorizontal: 10,
+          backgroundColor: '#0a191e'
         }}>
 
         <TextInput
@@ -89,7 +93,7 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         }}
         />
         <TextInput
-        label="Birthday"
+        label="Birthday (dd/mm/yy)"
         value={birthday}
         autoComplete={false}
         style={{marginBottom: 5}}
@@ -151,24 +155,27 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
           <Text style={{
             fontSize: 13,
             fontWeight: 'bold',
-            paddingVertical: 0,
             color: '#fde2e4',
             marginBottom: 5,
+            paddingHorizontal: 100,
+            paddingBottom: 10,
+            paddingTop: 10,
             textDecorationLine: 'underline'
           }}>
-          By signing up, you agree to the Terms of Use and Privacy Policy.
+          Agree to Terms of Use and Privacy Policy.
           </Text>
           </View>
 
           <View style={styles.buttonContainer}>
 
         <Button
-                        title={'SUBMIT'}
+                        title={'REGISTER'}
                         buttonStyle={{
                         backgroundColor: '#b5179e',
                         borderRadius: 30,
-                        padding: 20,
-                        paddingHorizontal: 40
+                        padding: 15,
+                        paddingHorizontal: 40,
+                        paddingBottom: 10
                     }}
                     titleStyle={{
                         color: '#ffff',
@@ -183,6 +190,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
         
     </View>
     </ViewWithLoading>
+    </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -198,7 +207,8 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     backgroundColor: '#0a191e',
     marginTop: 20,
-  },
+    paddingTop: 12
+    },
   buttonContainer:{
     flex: 0, 
     width: '100%', 
@@ -206,11 +216,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor:'#0a191e',
+    paddingBottom: 20
   },
   PrivacyPolicyContainer:{
     flex: 0, 
     borderWidth: 0, 
     alignItems: 'center', 
     backgroundColor: '#0a191e'
+  },
+  ScrollViewContainer:{
+    backgroundColor: '#0a191e',
+    marginHorizontal: 0
   }
 })
