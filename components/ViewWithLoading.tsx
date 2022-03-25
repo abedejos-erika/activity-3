@@ -31,7 +31,7 @@ export default ViewWithLoading;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#0a191e',
+        backgroundColor: '#7209b7',
         // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
     }
 })
