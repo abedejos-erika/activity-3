@@ -1,5 +1,5 @@
-import { Dimensions, Image, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
-//import LottieView from 'lottie-react-native';
+import { Dimensions, Image, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, PlatformColor } from 'react-native';
+import LottieView from 'lottie-react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
@@ -15,6 +15,8 @@ import { white } from 'react-native-paper/lib/typescript/styles/colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { Ionicons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import { parse, isDate } from "date-fns";
 
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
@@ -25,12 +27,11 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
   const passwordError = "Password must contain at least 8 to 16 characters, a combination of upper and lowercase letters, and at least one number or symbol.";
   const cpnumError = "Invalid mobile number.";
 
-
   const registerSchema = yup.object({
     firstname: yup.string().required('First Name is required.'),
     lastname: yup.string().required('Last Name is required.'),
     birthday: yup.mixed()
-            .test('valid-date', 'Please enter a valid date.', val =>
+            .test('valid-date', 'Please select date from calendar.', val =>
                 moment(val, 'DD-MM-YYYY').isValid()
             )
             .test('valid-length', 'Please enter a valid date.', val => {
@@ -40,8 +41,8 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
                 return moment().diff(moment(val, 'DD-MM-YYYY'), 'year') >= 18
             }),
     address: yup.string().required('Address is required.'),
-    mobilenumber: yup.string().required('Mobile Number is required.')
-        .matches(/^9\d{9}$/, cpnumError),
+    mobilenumber: yup.string().required('Mobile Number is required.'),
+      //.matches(/^9\d{9}$/, cpnumError),
     email: yup.string().required('Email address is required.')
         .matches(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/, emailError),
     password: yup.string().required('Password is required.')
@@ -59,9 +60,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
 
   return (
 
-    
-      <ScrollView style={styles.ScrollViewContainer}>
-    
+<ScrollView style={styles.ScrollViewContainer}>
     <ViewWithLoading
       loading={loading}
     >
@@ -90,10 +89,11 @@ const handleCheckDate = (handleChange: any, date: string) => {
         <View style={styles.titleContainer}>
           <Text style={{
             fontSize: 30,
+            fontFamily: 'poppins-bold',
             fontWeight: 'bold',
             color: '#fde2e4',
           }}>
-          Create an Account
+          Create  an  Account
           </Text>
         </View>
 
@@ -103,13 +103,14 @@ const handleCheckDate = (handleChange: any, date: string) => {
                     lastname: '',
                     birthday: '',
                     address: '',
-                    mobilenumber: '+63',
+                    mobilenumber: '',
                     email: '',
                     password: '',
                     retypepw: ''
                 }}
                 onSubmit={(values, actions) => {
-                    actions.resetForm();
+                  console.log(values);
+                  actions.resetForm();
                 }}
                 validationSchema={registerSchema}
             >
@@ -144,7 +145,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
         mode={"flat"}
         value={values.lastname}
         autoComplete={false}
-        style={{marginBottom: 5}}
+        style={{marginBottom: 0}}
         onChangeText={handleChange('lastname')}
         error={errors.lastname ? true : false}
         />
@@ -156,24 +157,56 @@ const handleCheckDate = (handleChange: any, date: string) => {
             {errors.lastname}
           </Text>
         }
-        <TextInput
-        label="Birthday (dd/mm/yy)"
-        mode={"flat"}
-        value={values.birthday}
-        autoComplete={false}
-        style={{marginBottom: 5}}
-        right={<TextInput.Icon name="calendar" color={"purple"}/>}
-        onChangeText={handleChange('birthday')}
-        error={errors.birthday ? true : false}
-        />
-        {errors.birthday &&
+
+        <View style={{
+          flex: 0,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+          backgroundColor: '#0a191e',
+        }}>
+
+        <View style={{ width: '90%', backgroundColor: '#0a191e'}}>
+          <TextInput
+          value={values.birthday}
+          mode={"flat"}
+          onChangeText={handleChange('birthday')}
+          label={"Birthday"}
+          error={errors.birthday ? true : false}
+          autoComplete={false}
+          style={{marginBottom: 10, marginTop: 10}}
+          />
+          {errors.birthday &&
           <Text style={{
             color: 'white',
             paddingBottom: 5
           }} >
             {errors.birthday}
           </Text>
-        }
+         }
+          </View>
+          <TouchableOpacity
+            onPress={() => setVisible(true)}
+          >
+          <Ionicons name='calendar' size={30} color='pink' />
+            </TouchableOpacity>
+              </View>
+                <DateTimePickerModal
+                  isVisible={visible}
+                  mode="date"
+                  onConfirm={(date) => {
+                  var dd = String(date.getDate()).padStart(2, '0');
+                  var mm = String(date.getMonth() + 1).padStart(2, '0'); 
+                  var yyyy = date.getFullYear();
+
+                  setVisible(false);
+                  handleCheckDate(handleChange('birthday'), `${dd}-${mm}-${yyyy}`);
+                  }}
+                  onCancel={() => setVisible(false)}
+                  isDarkModeEnabled={false}
+                  />
+
         <TextInput
         label="Address"
         mode={"flat"}
@@ -192,7 +225,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
           </Text>
         }
         <TextInput
-        label="Mobile Number"
+        label="Mobile Number (+63)"
         mode={"flat"}
         value={values.mobilenumber}
         keyboardType={"number-pad"}
@@ -282,8 +315,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
             {errors.retypepw}
           </Text>
         }
-
-      
+  </View>
 
         <View style={styles.PrivacyPolicyContainer}>
           <Text style={{
@@ -294,7 +326,8 @@ const handleCheckDate = (handleChange: any, date: string) => {
             paddingHorizontal: 50,
             paddingBottom: 10,
             paddingTop: 10,
-            textDecorationLine: 'underline'
+            textDecorationLine: 'underline',
+            fontFamily: 'poppins-bold'
           }}>
           Agree to Terms of Use and Privacy Policy.
           </Text>
@@ -315,10 +348,11 @@ const handleCheckDate = (handleChange: any, date: string) => {
                         color: '#ffff',
                         fontFamily: 'poppins-bold',
                     }}
-                    //onPress={handleSubmit}
+                    onPress={() => {
+                      handleSubmit();
+                    }}
               />
         </View >
-     </View>
 </Fragment>
 )}
 </Formik>
@@ -333,7 +367,7 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   titleContainer:{
     flex: 0.5, 
@@ -342,7 +376,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#0a191e',
     marginTop: 20,
     paddingTop: 40,
-    paddingBottom: 10
+    paddingBottom: 10,
+    fontFamily: 'poppins-bold'
     },
   buttonContainer:{
     flex: 0, 
