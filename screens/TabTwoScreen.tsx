@@ -1,4 +1,4 @@
-import { Dimensions, Image, StyleSheet } from 'react-native';
+import { Dimensions, Image, StyleSheet, ScrollView } from 'react-native';
 import LottieView from 'lottie-react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -10,16 +10,18 @@ import React, { useState } from 'react';
 import ViewWithLoading from  "../../activity-3/components/ViewWithLoading"
 
 export default function TabTwoScreen({ navigation }: RootTabScreenProps<'TabTwo'>) {
+  const [visible, setVisible] = useState<boolean>(false);
 
   const [loading, setLoading] = useState<boolean>(true);
-  const[email, setEmail]=useState<string>("helloworld@gmail.com");
-  const[password, setPassword]=useState<string>("654321");
+  const[email, setEmail]=useState<string>("");
+  const[password, setPassword]=useState<string>("");
 
   setTimeout (() => {
     setLoading(false);
   },3000);
 
   return (
+
     <ViewWithLoading
       loading={loading}
     >
@@ -49,106 +51,85 @@ export default function TabTwoScreen({ navigation }: RootTabScreenProps<'TabTwo'
         
         <View style={styles.lottieContainer}>
         <LottieView
-                        source={require('../../activity-3/assets/lottie/50124-user-profile.json')}
+                        source={require('../../activity-3/assets/lottie/83255-connect.json')}
                         autoPlay={true}
                         loop={true}
           />
         </View >
 
         <View style={styles.titleContainer}>
-          <Text style={{
-            fontSize: 35,
-            fontWeight: 'bold',
-            paddingVertical: 0,
-            color: '#fde2e4'
-          }}>
-          W E L C O M E !
+          <Text style={styles.titletextContainer}>
+          Log In.
           </Text>
-          <Text style={{
-            fontSize: 13,
-            fontWeight: 'bold',
-            paddingVertical: 10,
-            color: '#fde2e4',
-            fontFamily: 'poppins-bold'
-          }}>
-          This app was created by the BROgrammers Group.
+          <Text style={styles.subtitleContainer}>
+          Log in or Register to create an account in Crossroads.
           </Text>
         </View>
 
-        <View style={{
-          flex: 0,
-          justifyContent: 'center',
-          paddingHorizontal: 20,
-          backgroundColor: '#0a191e'
-        }}>
-
+        <View style={styles.textboxContainer}>
         <TextInput
         label="Email"
+        mode={'outlined'}
         value={email}
         autoComplete={false}
-        style={{marginBottom: 10}}
+        right={<TextInput.Icon name="email" color={"purple"}/>}
+        style={{marginBottom: 1}}
         onChangeText={(text: string) => {
           setEmail(text);
         }}
         />
-
         <TextInput
         label="Password"
+        mode={'outlined'}
         value={password}
         autoComplete={false}
-        secureTextEntry={true}
+        secureTextEntry={!visible}
         style={{marginBottom: 20}}
+        right={
+        <TextInput.Icon 
+        name={visible ? "eye" : "eye-off"}
+        onPress={() => {
+            setVisible(!visible);
+        }}
+          color={"purple"}
+        />
+        }
         onChangeText={(text: string) => {
           setPassword(text);
         }}
         />
         </View>
 
-
         <View style={styles.buttonContainer}>
 
         <Button
-                        title={'REGISTER'}
-                        buttonStyle={{
-                        backgroundColor: '#b5179e',
-                        borderRadius: 30,
-                        padding: 20,
-                        paddingHorizontal: 40
-                    }}
-                    titleStyle={{
-                        color: '#ffff',
-                        fontFamily: 'poppins-bold',
-                    }}
+          title={'Log In'}
+          buttonStyle={{
+          backgroundColor: '#b5179e',
+          borderRadius: 20,
+          padding: 20,
+          paddingHorizontal: 40,
+          marginRight: 20
+        }}
+          titleStyle={styles.buttontitleContainer}
           />
         <Button
-                        title={'SIGN IN'}
-                        buttonStyle={{
-                        backgroundColor: '#7209b7',
-                        borderRadius: 30,
-                        padding: 20,
-                        paddingHorizontal: 40
-                    }}
-                    titleStyle={{
-                        color: '#ffff',
-                        fontFamily: 'poppins-bold'
-                    }}
+          title={'Register'}
+          buttonStyle={{
+          backgroundColor: '#7209b7',
+          borderRadius: 20,
+          padding: 20,
+          paddingHorizontal: 40
+        }}
+          titleStyle={styles.buttontitleContainer}
           />
         </View >
 
         <View style={styles.forgotpwContainer}>
-          <Text style={{
-            fontSize: 13,
-            fontWeight: 'bold',
-            paddingVertical: 0,
-            color: '#fde2e4',
-            textDecorationLine: 'underline'
-          }}>
+          <Text style={styles.forgotpwtextContainer}>
           Forgot Password?
           </Text>
           </View>
-        
-        
-
       </View>
     </View>
     </ViewWithLoading>
@@ -162,13 +143,33 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   lottieContainer:{
-    flex: 0.7, 
-    backgroundColor: '#0a191e' 
+    flex: 0.4, 
+    backgroundColor: '#0a191e',
+    marginTop: 50
   },
   titleContainer:{
     flex: 0.2, 
     borderWidth: 0, 
-    alignItems: 'center', 
+    marginLeft: 25, 
+    backgroundColor: '#0a191e'
+  },
+  titletextContainer:{
+    fontSize: 35,
+    fontWeight: 'bold',
+    paddingVertical: 0,
+    color: '#fde2e4'
+  },
+  subtitleContainer:{
+    fontSize: 17,
+    fontWeight: 'bold',
+    paddingVertical: 10,
+    color: '#e0aaff',
+    fontFamily: 'poppins-bold',
+  },
+  textboxContainer:{
+    flex: 0,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
     backgroundColor: '#0a191e'
   },
   buttonContainer:{
@@ -179,10 +180,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor:'#0a191e',
   },
+  buttontitleContainer:{
+    color: '#ffff',
+    fontFamily: 'poppins-bold',
+  },
   forgotpwContainer:{
     flex: 0, 
     borderWidth: 0, 
     alignItems: 'center', 
     backgroundColor: '#0a191e'
+  },
+  forgotpwtextContainer:{
+    fontSize: 15,
+    fontWeight: 'bold',
+    paddingVertical: 0,
+    color: 'skyblue',
+    textDecorationLine: 'underline'
   }
 })

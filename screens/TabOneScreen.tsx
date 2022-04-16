@@ -1,27 +1,28 @@
 import { Dimensions, Image, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, PlatformColor } from 'react-native';
-import LottieView from 'lottie-react-native';
-import EditScreenInfo from '../components/EditScreenInfo';
+//import LottieView from 'lottie-react-native';
+//import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { RootTabScreenProps } from '../types';
-import { Button } from "react-native-elements";
-import { useAssets } from 'expo-asset';
+import { Button, CheckBox } from "react-native-elements";
+//import { useAssets } from 'expo-asset';
 import { TextInput } from 'react-native-paper';
 import React, { Fragment, useState } from 'react';
 import ViewWithLoading from  "../../activity-3/components/ViewWithLoading"
-import { Appbar } from 'react-native-paper';
+//import { Appbar } from 'react-native-paper';
 import { Formik } from 'formik';
 import * as yup from "yup";
-import { white } from 'react-native-paper/lib/typescript/styles/colors';
+//import { white } from 'react-native-paper/lib/typescript/styles/colors';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import { Ionicons } from '@expo/vector-icons';
-import { StatusBar } from 'expo-status-bar';
-import { parse, isDate } from "date-fns";
+//import { StatusBar } from 'expo-status-bar';
+//import { parse, isDate } from "date-fns";
 
 
 export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
   const [visible, setVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isSelected, setSelection] = useState(false);
 
   const emailError = "Invalid email address.";
   const passwordError = "Password must contain at least 8 to 16 characters, a combination of upper and lowercase letters, and at least one number or symbol.";
@@ -87,13 +88,8 @@ const handleCheckDate = (handleChange: any, date: string) => {
       }}>
 
         <View style={styles.titleContainer}>
-          <Text style={{
-            fontSize: 30,
-            fontFamily: 'poppins-bold',
-            fontWeight: 'bold',
-            color: '#fde2e4',
-          }}>
-          Create  an  Account
+          <Text style={styles.titletextContainer}>
+          Create  an  Account.
           </Text>
         </View>
 
@@ -115,17 +111,13 @@ const handleCheckDate = (handleChange: any, date: string) => {
                 validationSchema={registerSchema}
             >
                 {({ handleChange, handleSubmit, values, errors, touched }) => (
+
     <Fragment>
-      <View style={{
-          flex: 0,
-          justifyContent: 'center',
-          paddingHorizontal: 10,
-          backgroundColor: '#0a191e'
-        }}>
+      <View style={styles.textboxContainer}>
 
         <TextInput
         label="First Name"
-        mode={"flat"}
+        mode={"outlined"}
         value={values.firstname}
         autoComplete={false}
         style={{marginBottom: 5, marginTop: 10}}
@@ -133,16 +125,13 @@ const handleCheckDate = (handleChange: any, date: string) => {
         error={errors.firstname ? true : false}
         />
         {errors.firstname &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.firstname}
           </Text>
         }
         <TextInput
         label="Last Name"
-        mode={"flat"}
+        mode={"outlined"}
         value={values.lastname}
         autoComplete={false}
         style={{marginBottom: 0}}
@@ -150,10 +139,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
         error={errors.lastname ? true : false}
         />
         {errors.lastname &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.lastname}
           </Text>
         }
@@ -170,7 +156,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
         <View style={{ width: '90%', backgroundColor: '#0a191e'}}>
           <TextInput
           value={values.birthday}
-          mode={"flat"}
+          mode={"outlined"}
           onChangeText={handleChange('birthday')}
           label={"Birthday"}
           error={errors.birthday ? true : false}
@@ -178,10 +164,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
           style={{marginBottom: 10, marginTop: 10}}
           />
           {errors.birthday &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.birthday}
           </Text>
          }
@@ -209,7 +192,7 @@ const handleCheckDate = (handleChange: any, date: string) => {
 
         <TextInput
         label="Address"
-        mode={"flat"}
+        mode={"outlined"}
         value={values.address}
         autoComplete={false}
         style={{marginBottom: 5}}
@@ -217,16 +200,13 @@ const handleCheckDate = (handleChange: any, date: string) => {
         error={errors.address ? true : false}
         />
         {errors.address &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.address}
           </Text>
         }
         <TextInput
         label="Mobile Number (+63)"
-        mode={"flat"}
+        mode={"outlined"}
         value={values.mobilenumber}
         keyboardType={"number-pad"}
         autoComplete={false}
@@ -235,16 +215,13 @@ const handleCheckDate = (handleChange: any, date: string) => {
         error={errors.mobilenumber ? true : false}
         />
         {errors.mobilenumber &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.mobilenumber}
           </Text>
         }
         <TextInput
         label="E-mail Address"
-        mode={"flat"}
+        mode={"outlined"}
         keyboardType={"email-address"}
         value={values.email}
         autoComplete={false}
@@ -254,16 +231,13 @@ const handleCheckDate = (handleChange: any, date: string) => {
         error={errors.email ? true : false}
         />
         {errors.email &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.email}
           </Text>
         }
         <TextInput
         label="Password"
-        mode={"flat"}
+        mode={"outlined"}
         value={values.password}
         autoComplete={false}
         style={{marginBottom: 5}}
@@ -281,16 +255,13 @@ const handleCheckDate = (handleChange: any, date: string) => {
         secureTextEntry={!visible}
         />
         {errors.password &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.password}
           </Text>
         }
         <TextInput
         label="Re-type Password"
-        mode={"flat"}
+        mode={"outlined"}
         value={values.retypepw}
         autoComplete={false}
         style={{marginBottom: 5}}
@@ -308,42 +279,29 @@ const handleCheckDate = (handleChange: any, date: string) => {
         secureTextEntry={!visible}
         />
         {errors.retypepw &&
-          <Text style={{
-            color: 'white',
-            paddingBottom: 5
-          }} >
+          <Text style={styles.textvalidationContainer}>
             {errors.retypepw}
           </Text>
         }
   </View>
 
         <View style={styles.PrivacyPolicyContainer}>
-          <Text style={{
-            fontSize: 13,
-            fontWeight: 'bold',
-            color: 'skyblue',
-            marginBottom: 5,
-            paddingHorizontal: 50,
-            paddingBottom: 10,
-            paddingTop: 10,
-            textDecorationLine: 'underline',
-            fontFamily: 'poppins-bold'
-          }}>
+
+        <CheckBox
+          //value={isSelected}
+          //onValueChange={setSelection}
+          style={styles.checkboxContainer}
+        />
+          <Text style={styles.privacypolicytextContainer}>
           Agree to Terms of Use and Privacy Policy.
           </Text>
-          </View>
+        </View>
 
         <View style={styles.buttonContainer}>
 
              <Button
-                    title="REGISTER"
-                    buttonStyle={{
-                        backgroundColor: '#b5179e',
-                        borderRadius: 30,
-                        padding: 15,
-                        paddingHorizontal: 40,
-                        paddingBottom: 10
-                    }}
+                    title="Register"
+                    buttonStyle={styles.buttonstyleContainer}
                     titleStyle={{
                         color: '#ffff',
                         fontFamily: 'poppins-bold',
@@ -379,6 +337,22 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     fontFamily: 'poppins-bold'
     },
+  titletextContainer:{
+    fontSize: 30,
+    fontFamily: 'poppins-bold',
+    fontWeight: 'bold',
+    color: '#fde2e4',
+    },
+  textboxContainer:{
+    flex: 0,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+    backgroundColor: '#0a191e'
+    },
+  textvalidationContainer:{
+    color: 'white',
+    paddingBottom: 5
+  },
   buttonContainer:{
     flex: 0, 
     width: '100%', 
@@ -388,15 +362,41 @@ const styles = StyleSheet.create({
     backgroundColor:'#0a191e',
     paddingBottom: 40,
   },
+  buttonstyleContainer:{
+    backgroundColor: '#b5179e',
+    borderRadius: 30,
+    padding: 15,
+    paddingHorizontal: 40,
+    paddingBottom: 10
+},
   PrivacyPolicyContainer:{
     flex: 0, 
+    flexDirection: "row",
     borderWidth: 0, 
     alignItems: 'center', 
-    backgroundColor: '#0a191e'
+    backgroundColor: '#0a191e',
+    marginLeft: 10,
+    marginRight: 30,
+    justifyContent: 'center'
+  },
+  privacypolicytextContainer:{
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: 'skyblue',
+    marginBottom: 5,
+    paddingHorizontal: 0,
+    paddingBottom: 10,
+    paddingTop: 10,
+    textDecorationLine: 'underline',
+    fontFamily: 'poppins-bold'
   },
   ScrollViewContainer:{
     backgroundColor: '#0a191e',
     marginHorizontal: 0,
     flexGrow: 1
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 1
   }
 })
